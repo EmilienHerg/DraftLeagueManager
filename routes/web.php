@@ -3,10 +3,6 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/inscription', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/inscription', [AuthController::class, 'register']);
 
