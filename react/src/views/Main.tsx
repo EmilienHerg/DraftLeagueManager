@@ -1,7 +1,7 @@
 export default function Main() {
     return (
         <>
-            <div>Main</div>
+            <p>Main</p>
         </>
     );
 }
