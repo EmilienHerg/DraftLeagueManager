@@ -9,10 +9,6 @@ import Main from "./views/Main";
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Main />,
-    },
-    {
         element: <GuestLayout />,
         children: [
             {
@@ -22,17 +18,21 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register />,
-            }
-        ]
+            },
+        ],
     },
     {
         element: <DefaultLayout />,
         children: [
             {
+                path: "/",
+                element: <Main />,
+            },
+            {
                 path: "/dashboard",
                 element: <Dashboard />,
-            }
-        ]
+            },
+        ],
     },
     {
         path: "*",

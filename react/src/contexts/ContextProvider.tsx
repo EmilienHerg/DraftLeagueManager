@@ -8,7 +8,9 @@ interface ContextProviderProps {
 export const ContextProvider = ({ children }: ContextProviderProps) => {
   const [user, setUser] = useState<any>(null);
   const [token, _setToken] = useState<string | null>(
+    //à décommenter
     localStorage.getItem("ACCESS_TOKEN")
+    //"123"
   );
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
