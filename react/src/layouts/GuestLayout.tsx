@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/useStateContext";
-import { AppShell, Button, Group, useMantineTheme } from "@mantine/core";
+import { AppShell, Button, Flex, useMantineTheme } from "@mantine/core";
 import type { HeaderButtons } from "../types/HeaderButtons";
 
 export default function GuestLayout() {
@@ -24,12 +24,10 @@ export default function GuestLayout() {
         },
     ];
 
-    
-
     return (
-        <AppShell padding="md">
+        <AppShell padding="md" header={{ height: 60 }}>
             <AppShell.Header style={{ backgroundColor: theme.colors.gray[1] }}>
-                <Group justify="flex-end" gap={"sm"} mr={"lg"}>
+                <Flex h="100%" justify="flex-end" align="center" gap={"sm"} mr={"lg"}>
                     {headerButtons.map((button) => (
                         <Button
                             key={button.text}
@@ -43,7 +41,7 @@ export default function GuestLayout() {
                             {button.text}
                         </Button>
                     ))}
-                </Group>
+                </Flex>
             </AppShell.Header>
 
             <AppShell.Main>
