@@ -1,11 +1,18 @@
 import { useForm } from "@mantine/form";
-import type { RegisterFormType } from "../types/RegisterFormType";
+import type { RegisterFormType } from "../types/FormTypes";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { CiAt } from "react-icons/ci";
 import axiosClient from "../axios-client";
-import showSuccessNotification from "../utils/notifications";
+import showSuccessNotification, {
+    showErrorNotification,
+} from "../utils/notifications";
+import { useState } from "react";
 
 export default function Register() {
+
+    // Gère l'état du bouton Enregistrer lors de la création de l'utilisateur
+    const [isLoading, setIsLoading] = useState(false);
+
     const registerForm = useForm({
         mode: "uncontrolled",
         initialValues: {
@@ -34,13 +41,16 @@ export default function Register() {
         },
     });
 
+    // Méthode qui enregistre un nouvel utilisateur
     const registerUser = async (values: RegisterFormType) => {
         try {
+            setIsLoading(true);
             const response = await axiosClient.post("/api/register", values);
-            console.log(response.data);
-            showSuccessNotification("Bravo");
+            showSuccessNotification(response.data.message);
+            setIsLoading(false);
         } catch (error: any) {
-            console.error(error.response?.data);
+            showErrorNotification(error.response.data.message);
+            setIsLoading(false);
         }
     };
 
@@ -79,11 +89,8 @@ export default function Register() {
                 placeholder="Confirmation du mot de passe"
                 {...registerForm.getInputProps("password_confirmation")}
             />
-            <Button mt="sm" type="submit">
+            <Button disabled={isLoading} mt="sm" type="submit">
                 Enregistrer
-            </Button>
-            <Button onClick={() => showSuccessNotification("Bravo")}>
-                Show notification
             </Button>
         </form>
     );

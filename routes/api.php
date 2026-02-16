@@ -2,21 +2,25 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DraftController;
+use App\Http\Responses\SuccessResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/', function () {
-    return "Racine";
+Route::get('/', function () {
+    return new SuccessResponse(200, "API is running")->send();
 });
 
-Route::post('/getAllDrafts', [DraftController::class, 'getAll']);
+Route::post('/register', [AuthController::class, 'register']);
 
-// Route::middleware('web')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::middleware('web')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-// });
+    Route::get('/user', [AuthController::class, 'getUser']);
+
+    Route::post('/getAllDrafts', [DraftController::class, 'getAll']);
+});
 
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('/user', function() {

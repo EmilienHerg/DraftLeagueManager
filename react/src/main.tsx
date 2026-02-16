@@ -6,6 +6,7 @@ import { ContextProvider } from "./contexts/ContextProvider.tsx";
 import "@mantine/core/styles.css";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+
 const appTheme = createTheme({
     fontFamily: "Verdana, sans-serif",
     fontFamilyMonospace: "Monaco, Courier, monospace",
