@@ -18,7 +18,7 @@ import showSuccessNotification, {
 
 export default function DefaultLayout() {
     const { token, setToken, user } = useStateContext();
-
+    console.log(token);
     const theme = useMantineTheme();
 
     if (!token) {
