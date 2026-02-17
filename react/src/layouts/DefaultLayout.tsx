@@ -18,7 +18,6 @@ import showSuccessNotification, {
 
 export default function DefaultLayout() {
     const { token, setToken, user } = useStateContext();
-    console.log(token);
     const theme = useMantineTheme();
 
     if (!token) {
@@ -51,28 +50,27 @@ export default function DefaultLayout() {
     return (
         <AppShell
             padding="md"
+            header={{
+                height: 60,
+            }}
             navbar={{
                 width: 300,
                 breakpoint: "sm",
             }}
         >
             <AppShell.Header style={{ backgroundColor: theme.colors.gray[1] }}>
-                <AppShell.Header
-                    style={{ backgroundColor: theme.colors.gray[1] }}
-                >
-                    <Group justify="flex-end" gap={"sm"} mr={"lg"}>
-                        <Button
-                            variant="light"
-                            color="cyan"
-                            size="md"
-                            radius="md"
-                            my={"xs"}
-                            onClick={logoutUser}
-                        >
-                            Déconnexion
-                        </Button>
-                    </Group>
-                </AppShell.Header>
+                <Group h="100%" justify="flex-end" align="center" gap={"sm"} mr={"lg"}>
+                    <Button
+                        variant="light"
+                        color="cyan"
+                        size="md"
+                        radius="md"
+                        my={"xs"}
+                        onClick={logoutUser}
+                    >
+                        Déconnexion
+                    </Button>
+                </Group>
             </AppShell.Header>
 
             <AppShell.Navbar>
