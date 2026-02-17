@@ -10,7 +10,8 @@ class Draft extends Model
     protected $fillable = [
         'name',
         'pokemonNb',
-        'pointsNb'
+        'pointsNb',
+        'user_id'
     ];
 
     public function user(): BelongsTo

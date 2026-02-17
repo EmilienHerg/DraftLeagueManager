@@ -10,7 +10,7 @@ export default function GuestLayout() {
     const navigate = useNavigate();
 
     if (token) {
-        return <Navigate to={"/"} />;
+        return <Navigate to={"/dashboard"} />;
     }
 
     const headerButtons: HeaderButtons[] = [

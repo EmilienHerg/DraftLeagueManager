@@ -1,11 +1,14 @@
 import { useForm } from "@mantine/form";
 import type { LoginFormType } from "../types/FormTypes";
 import axiosClient from "../axios-client";
-import showSuccessNotification from "../utils/notifications";
+import showSuccessNotification, { showErrorNotification } from "../utils/notifications";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { CiAt } from "react-icons/ci";
+import { useStateContext } from "../contexts/useStateContext";
 
 export default function Login() {
+    const { setToken, setUser } = useStateContext();
+
     const loginForm = useForm({
         initialValues: {
             email: "",
@@ -19,10 +22,18 @@ export default function Login() {
 
     const loginUser = async (values: LoginFormType) => {
         try {
+            await axiosClient.get("/sanctum/csrf-cookie");
             const response = await axiosClient.post("/api/login", values);
+            if (response.data.token) {
+                setToken(response.data.token)
+            }
+
+            if (response.data.user) {
+                setUser(response.data.user);
+            }
             showSuccessNotification(response.data.message);
         } catch (error: any) {
-            showSuccessNotification(error.response.data.message);
+            showErrorNotification(error.response.data.message);
         }
     };
 

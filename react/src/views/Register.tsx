@@ -45,6 +45,7 @@ export default function Register() {
     const registerUser = async (values: RegisterFormType) => {
         try {
             setIsLoading(true);
+
             const response = await axiosClient.post("/api/register", values);
             showSuccessNotification(response.data.message);
             setIsLoading(false);

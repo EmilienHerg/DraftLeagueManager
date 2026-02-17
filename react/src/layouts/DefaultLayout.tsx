@@ -11,15 +11,29 @@ import {
 } from "@mantine/core";
 import { MdDashboard, MdSettings } from "react-icons/md";
 import type { NavbarItem } from "../types/NavbarItem";
+import axiosClient from "../axios-client";
+import showSuccessNotification, {
+    showErrorNotification,
+} from "../utils/notifications";
 
 export default function DefaultLayout() {
-    const { token } = useStateContext();
+    const { token, setToken, user } = useStateContext();
 
     const theme = useMantineTheme();
 
     if (!token) {
         return <Navigate to={"/login"} />;
     }
+
+    const logoutUser = async () => {
+        try {
+            const response = await axiosClient.post("/api/logout");
+            setToken(null);
+            showSuccessNotification(response.data.message);
+        } catch (error: any) {
+            showErrorNotification(error.response.data.message);
+        }
+    };
 
     const navbarMenus: NavbarItem[] = [
         {
@@ -53,6 +67,7 @@ export default function DefaultLayout() {
                             size="md"
                             radius="md"
                             my={"xs"}
+                            onClick={logoutUser}
                         >
                             Déconnexion
                         </Button>
@@ -61,6 +76,16 @@ export default function DefaultLayout() {
             </AppShell.Header>
 
             <AppShell.Navbar>
+                {user && (
+                    <Stack gap={0} align="flex-end">
+                        <Text size="sm" fw={700}>
+                            {user.pseudo}
+                        </Text>
+                        <Text size="xs" c="dimmed">
+                            {user.email}
+                        </Text>
+                    </Stack>
+                )}
                 <Center>
                     <Text
                         size="lg"

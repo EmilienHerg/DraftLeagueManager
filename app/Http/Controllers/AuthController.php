@@ -39,40 +39,40 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
-        ]);
+        try {
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required']
+            ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            if (Auth::attempt($credentials)) {
+                $user = Auth::user();
+                $token = $user->createToken('main')->plainTextToken;
 
-            return new SuccessResponse(200, 'Utilisateur connecté')->send();
+                return response()->json([
+                    'message' => 'Utilisateur connecté',
+                    'token' => $token,
+                    'user' => $user
+                ]);
+                // return new SuccessResponse(200, 'Utilisateur connecté', $user)->send();
+            }
+            return new ErrorResponse(401, 'Credentials invalides')->send();
+        } catch (\Exception $e) {
+            return new ErrorResponse(500, $e->getMessage())->send();
         }
-
-        return new ErrorResponse(401, 'Credentials invalides')->send();
     }
 
     public function logout(Request $request)
     {
-        try {
-            $user = Auth::user();
+        // On s'assure de récupérer l'utilisateur via la requête
+        $user = $request->user();
 
-            if (!$user) {
-                return new ErrorResponse(403, 'Vous devez être connecté pour vous déconnecter.')->send();
-            }
-
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return new SuccessResponse(200, 'Utilisateur déconnecté avec succès', $user)->send();
-        } catch (\Exception $e) {
-            return new ErrorResponse(500, $e->getMessage())->send();
+        if ($user) {
+            $user->currentAccessToken()->delete();
+            return response()->json(['message' => 'Token supprimé'], 200);
         }
 
-        // redirect
-
+        return response()->json(['message' => 'Non autorisé'], 401);
     }
 
     public function getUser()
