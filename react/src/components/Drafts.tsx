@@ -2,7 +2,7 @@ import type { User } from "../types/User";
 import axiosClient from "../axios-client";
 import { useEffect, useState } from "react";
 import type { Draft } from "../types/Draft";
-import { Skeleton } from "@mantine/core";
+import { Grid, Skeleton } from "@mantine/core";
 import DraftCard from "./DraftCard";
 
 export default function Drafts({ user }: { user: User }) {
@@ -34,11 +34,13 @@ export default function Drafts({ user }: { user: User }) {
                     {loading ? (
                         <Skeleton height={8} mt={6} width="70%" radius="xl" />
                     ) : (
-                        <div>
+                        <Grid>
                             {drafts.map((draft) => (
-                                <DraftCard draft={draft} />
+                                <Grid.Col span={4}>
+                                    <DraftCard draft={draft} />
+                                </Grid.Col>
                             ))}
-                        </div>
+                        </Grid>
                     )}
                 </div>
             )}
