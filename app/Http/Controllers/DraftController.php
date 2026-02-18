@@ -45,6 +45,7 @@ class DraftController extends Controller
     {
         try {
             $draft = Draft::where('token', '=', $token)->first();
+            
             if (!$draft) {
                 return new ErrorResponse(404, 'Draft non trouvée')->send();
             }

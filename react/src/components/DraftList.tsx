@@ -5,7 +5,7 @@ import type { Draft } from "../types/Draft";
 import { Grid, Skeleton } from "@mantine/core";
 import DraftCard from "./DraftCard";
 
-export default function Drafts({ user }: { user: User }) {
+export default function DraftList({ user }: { user: User }) {
     const [drafts, setDrafts] = useState<Draft[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 

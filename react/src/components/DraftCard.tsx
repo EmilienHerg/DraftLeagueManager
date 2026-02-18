@@ -1,5 +1,6 @@
 import { Badge, Button, Card, Group, Image, Text } from "@mantine/core";
 import type { Draft } from "../types/Draft";
+import { Link } from "react-router-dom";
 
 export default function DraftCard({ draft } : { draft: Draft}) {
     return (
@@ -23,8 +24,8 @@ export default function DraftCard({ draft } : { draft: Draft}) {
                 Norway
             </Text>
 
-            <Button color="blue" fullWidth mt="md" radius="md">
-                Book classic tour now
+            <Button component={Link} color="blue" fullWidth mt="md" radius="md" to={`/draft/${draft.token}`}>
+                View Draft
             </Button>
         </Card>
     );

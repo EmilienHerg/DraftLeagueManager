@@ -24,6 +24,6 @@ class ErrorResponse
             'success' => false,
             'message' => $this->message,
             'data' => $this->data
-        ]);
+        ], $this->code);
     }
 }

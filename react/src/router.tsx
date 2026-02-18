@@ -7,6 +7,7 @@ import GuestLayout from "./layouts/GuestLayout";
 import Dashboard from "./views/Dashboard";
 import Main from "./views/Main";
 import DefaultLayout from "./layouts/DefaultLayout";
+import DraftManager from "./views/DraftManager";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
                 path: "/dashboard",
                 element: <Dashboard />,
             },
+            {
+                path: "/draft/:token",
+                element: <DraftManager />
+            }
         ],
     },
     {

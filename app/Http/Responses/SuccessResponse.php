@@ -24,6 +24,6 @@ class SuccessResponse
             'success' => true,
             'message' => $this->message,
             'data' => $this->data
-        ]);
+        ], $this->code);
     }
 }

@@ -1,4 +1,4 @@
-import Drafts from "../components/Drafts";
+import DraftList from "../components/DraftList";
 import { useStateContext } from "../contexts/useStateContext";
 
 export default function Dashboard() {
@@ -6,7 +6,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <Drafts user={user} />
+            <DraftList user={user} />
         </>
     );
 }
