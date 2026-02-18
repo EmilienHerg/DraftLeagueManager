@@ -13,7 +13,7 @@ export default function Drafts({ user }: { user: User }) {
         const fetchDrafts = async () => {
             try {
                 setLoading(true);
-                const response = await axiosClient.get("/drafts");
+                const response = await axiosClient.get("/api/drafts");
                 setDrafts(response.data.data);
             } catch (error) {
                 console.error("Failed to fetch drafts:", error);

@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'getUser']);
 
-    Route::get('/draft/{id}', [DraftController::class, 'getDraftById']);
+    Route::get('/draft/{id}', [DraftController::class, 'getDraftById'])->where('id', '[0-9]+');
+    Route::get('/draft/{token}', [DraftController::class, 'getDraftByToken']);
     Route::get('/drafts', [DraftController::class, 'getAllDrafts']);
     Route::post('/draft', [DraftController::class, 'createDraft']);
 

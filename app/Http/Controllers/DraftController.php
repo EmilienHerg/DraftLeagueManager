@@ -8,6 +8,7 @@ use App\Models\Draft;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class DraftController extends Controller
 {
@@ -18,11 +19,6 @@ class DraftController extends Controller
     {
         try {
             $user = Auth::user();
-
-            if (!$user) {
-                return new ErrorResponse(401, "Authentification requise")->send();
-            }
-
             $drafts = Draft::where('user_id', $user->id)->get();
 
             return new SuccessResponse(200, 'Drafts récupérées avec succès', $drafts)->send();
@@ -39,7 +35,21 @@ class DraftController extends Controller
                 return new ErrorResponse(404, 'Draft non trouvée')->send();
             }
 
-            return new SuccessResponse(200, 'Draft trouvée', $draft);
+            return new SuccessResponse(200, 'Draft trouvée', $draft)->send();
+        } catch (\Exception $e) {
+            return new ErrorResponse(500, 'Erreur lors de la recherche de la draft')->send();
+        }
+    }
+
+    public function getDraftByToken(string $token)
+    {
+        try {
+            $draft = Draft::where('token', '=', $token)->first();
+            if (!$draft) {
+                return new ErrorResponse(404, 'Draft non trouvée')->send();
+            }
+
+            return new SuccessResponse(200, 'Draft trouvée', $draft)->send();
         } catch (\Exception $e) {
             return new ErrorResponse(500, 'Erreur lors de la recherche de la draft')->send();
         }
@@ -66,6 +76,7 @@ class DraftController extends Controller
 
             $draft = Draft::create([
                 'name' => $request->name,
+                'token' => Str::random(16),
                 'pokemonNb' => $request->pokemonNb,
                 'pointsNb' => $request->pointsNb,
                 'user_id' => $user->id
