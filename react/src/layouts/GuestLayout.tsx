@@ -1,14 +1,21 @@
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, Link } from "react-router-dom";
 import { useStateContext } from "../contexts/useStateContext";
-import { AppShell, Button, Flex, useMantineTheme } from "@mantine/core";
+import {
+    AppShell,
+    Button,
+    Group,
+    Text,
+    Box,
+    useMantineTheme,
+    rem,
+} from "@mantine/core";
 import type { HeaderButtons } from "../types/HeaderButtons";
 
 export default function GuestLayout() {
     const { token } = useStateContext();
-
     const theme = useMantineTheme();
-    const navigate = useNavigate();
 
+    // Si l'utilisateur est déjà connecté, on le redirige vers le dashboard
     if (token) {
         return <Navigate to={"/dashboard"} />;
     }
@@ -25,27 +32,50 @@ export default function GuestLayout() {
     ];
 
     return (
-        <AppShell padding="md" header={{ height: 60 }}>
-            <AppShell.Header style={{ backgroundColor: theme.colors.gray[1] }}>
-                <Flex h="100%" justify="flex-end" align="center" gap={"sm"} mr={"lg"}>
-                    {headerButtons.map((button) => (
-                        <Button
-                            key={button.text}
-                            variant="light"
-                            color="cyan"
-                            size="md"
-                            radius="md"
-                            my={"xs"}
-                            onClick={() => navigate(button.link)}
-                        >
-                            {button.text}
-                        </Button>
-                    ))}
-                </Flex>
-            </AppShell.Header>
+        <AppShell 
+            header={{ height: 70 }} 
+            padding="md"
+        >
+            <AppShell.Header px="md" style={{ borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}` }}>
+                <Group h="100%" justify="space-between" maw={1200} mx="auto">
+                    <Text
+                        size="xl"
+                        fw={900}
+                        component={Link}
+                        to="/"
+                    >
+                        DRAFT APP
+                    </Text>
 
-            <AppShell.Main>
-                <Outlet />
+                    <Group gap="sm">
+                        {headerButtons.map((button) => (
+                            <Button
+                                key={button.text}
+                                component={Link}
+                                to={button.link}
+                                variant="subtle"
+                                color="blue"
+                                radius="md"
+                            >
+                                {button.text}
+                            </Button>
+                        ))}
+                    </Group>
+                </Group>
+            </AppShell.Header>
+            <AppShell.Main bg={theme.colors.gray[0]}>
+                <Box 
+                    style={{ 
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Box maw={450} w="100%" mx="auto">
+                        <Outlet />
+                    </Box>
+                </Box>
             </AppShell.Main>
         </AppShell>
     );
