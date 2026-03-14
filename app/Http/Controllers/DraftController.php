@@ -45,7 +45,7 @@ class DraftController extends Controller
     {
         try {
             $draft = Draft::where('token', '=', $token)->first();
-            
+
             if (!$draft) {
                 return new ErrorResponse(404, 'Draft non trouvée')->send();
             }
@@ -89,19 +89,15 @@ class DraftController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function getPokemon(int $id)
     {
-        //
-    }
+        try {
+            $draft = Draft::find($id);
+            $pokemonList = $draft->pokemon;
+            return new SuccessResponse(200, 'Pokemon récupérés avec succès', $pokemonList)->send();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        } catch (\Exception $e) {
+            return new ErrorResponse(500, 'Erreur lors de la récupération des Pokemon de la draft n°' . $id)->send();
+        }
     }
 }

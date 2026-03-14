@@ -48,7 +48,7 @@ export default function GuestLayout() {
                     </Text>
 
                     <Group gap="sm">
-                        {headerButtons.map((button) => (
+                        {headerButtons.map((button) => (  
                             <Button
                                 key={button.text}
                                 component={Link}

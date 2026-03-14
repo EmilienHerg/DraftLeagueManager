@@ -25,6 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/draft/{token}', [DraftController::class, 'getDraftByToken']);
     Route::get('/drafts', [DraftController::class, 'getAllDrafts']);
     Route::post('/draft', [DraftController::class, 'createDraft']);
+    Route::get('/draft/{id}/pokemon', [DraftController::class, 'getPokemon']);
 
-    Route::get('/pokemon/{type}', [PokemonController::class, 'getPokemonByType']);
+    Route::get('/pokemon/type/{type}', [PokemonController::class, 'getPokemonByType']);
+    Route::get('/pokemon/{pokemon}', [PokemonController::class, 'getPokemonDetails']);
+
+    Route::post('/fillPokemonDatabase', [PokemonController::class, 'fillPokemonDatabase']);
 });
